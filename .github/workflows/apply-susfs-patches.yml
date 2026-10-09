@@ -1,0 +1,52 @@
+name: Apply SUSFS Patches
+
+on:
+  workflow_call:
+    inputs:
+      susfs_patches_path:
+        description: 'Path to susfs-patches submodule'
+        required: true
+        type: string
+      gki_kernel_dir:
+        description: 'GKI kernel source directory'
+        required: true
+        type: string
+
+jobs:
+  apply-patches:
+    name: Apply SUSFS Patches
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Apply KSU Module Patches
+        run: |
+          echo "KSU module patches are applied at build time by AndroidGKI"
+          echo "See: https://gitlab.com/simonpunk/susfs4ksu"
+
+      - name: Apply GKI Kernel Patches
+        run: |
+          echo "Copying SUSFS files to GKI kernel..."
+          Patches="$GITHUB_WORKSPACE/${{ inputs.susfs_patches_path }}/kernel_patches"
+          Kernel="$GITHUB_WORKSPACE/${{ inputs.gki_kernel_dir }}"
+          
+          # Copy fs source
+          if [ -d "$Patches/fs" ]; then
+            cp -r "$Patches/fs"/* "$Kernel/fs/"
+            echo "✓ Copied fs/susfs.c"
+          fi
+          
+          # Copy include/linux header
+          if [ -d "$Patches/include/linux" ]; then
+            cp -r "$Patches/include/linux"/* "$Kernel/include/linux/"
+            echo "✓ Copied include/linux/susfs.h"
+          fi
+          
+          # Copy patch files
+          if [ -f "$Patches/50_add_susfs_in_kernel-*.patch" ]; then
+            cp "$Patches"/50_add_susfs_in_kernel-*.patch .
+            echo "✓ Copied SUSFS patch file"
+          fi
