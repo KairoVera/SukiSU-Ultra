@@ -1,0 +1,23 @@
+diff --git a/kernel/selinux/rules.c b/kernel/selinux/rules.c
+index 1234567..abcdefg 100644
+--- a/kernel/selinux/rules.c
++++ b/kernel/selinux/rules.c
+@@ -1,6 +1,10 @@
+ #include "internal.h"
+ #include "../kernel_compat.h"
+ 
++#ifdef CONFIG_KSU_SUSFS
++#include "../include/susfs.h"
++#endif
++
+ static int allow_rule(const char *sctx, const char *tctx, const char *tclass, const char *perm)
+ {
+ 	struct policydb *policydb = &selinux_state.policy;
+@@ -150,6 +154,10 @@ void ksu_set_selinux_rules(struct selinux_policy *policy)
+ 	ksu_allow_all_domain(policy, "kernel");
+ 	ksu_allow_all_domain(policy, "untrusted_app");
++
++#ifdef CONFIG_KSU_SUSFS
++	ksu_allow_umount_access(policy);
++#endif
+ }

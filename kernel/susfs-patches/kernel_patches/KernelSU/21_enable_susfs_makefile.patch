@@ -1,0 +1,52 @@
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 1234567..abcdefg 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -1,5 +1,15 @@
+ obj-$(CONFIG_KSU) += kernelsu.o
+ 
++ifeq ($(CONFIG_KSU_SUSFS), y)
++ccflags-y += -DKSU_SUSFS
++ccflags-y += -I$(srctree)/fs
++ccflags-y += -include $(srctree)/include/linux/susfs.h
++endif
++
++ifneq ($(CONFIG_KSU_SUSFS_SUS_PATH),)
++ccflags-y += -DKSU_SUSFS_SUS_PATH
++endif
++ifneq ($(CONFIG_KSU_SUSFS_SUS_MOUNT),)
++ccflags-y += -DKSU_SUSFS_SUS_MOUNT
++endif
++ifneq ($(CONFIG_KSU_SUSFS_SUS_KSTAT),)
++ccflags-y += -DKSU_SUSFS_SUS_KSTAT
++endif
++ifneq ($(CONFIG_KSU_SUSFS_SUS_MAPS),)
++ccflags-y += -DKSU_SUSFS_SUS_MAPS
++endif
++ifneq ($(CONFIG_KSU_SUSFS_SUS_PROC_FD_LINK),)
++ccflags-y += -DKSU_SUSFS_SUS_PROC_FD_LINK
++endif
++ifneq ($(CONFIG_KSU_SUSFS_SUS_MEMFD),)
++ccflags-y += -DKSU_SUSFS_SUS_MEMFD
++endif
++ifneq ($(CONFIG_KSU_SUSFS_TRY_UMOUNT),)
++ccflags-y += -DKSU_SUSFS_TRY_UMOUNT
++endif
++ifneq ($(CONFIG_KSU_SUSFS_SPOOF_UNAME),)
++ccflags-y += -DKSU_SUSFS_SPOOF_UNAME
++endif
++ifneq ($(CONFIG_KSU_SUSFS_ENABLE_LOG),)
++ccflags-y += -DKSU_SUSFS_ENABLE_LOG
++endif
++ifneq ($(CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS),)
++ccflags-y += -DKSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS
++endif
++ifneq ($(CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG),)
++ccflags-y += -DKSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG
++endif
++ifneq ($(CONFIG_KSU_SUSFS_OPEN_REDIRECT),)
++ccflags-y += -DKSU_SUSFS_OPEN_REDIRECT
++endif
++
+ ccflags-y += -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
+ ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-generic/errno.h

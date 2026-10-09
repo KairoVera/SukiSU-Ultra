@@ -1,0 +1,21 @@
+diff --git a/kernel/kernel_compat.h b/kernel/kernel_compat.h
+index 1234567..abcdefg 100644
+--- a/kernel/kernel_compat.h
++++ b/kernel/kernel_compat.h
+@@ -1,6 +1,10 @@
+ #ifndef KSU_KERNEL_COMPAT_H
+ #define KSU_KERNEL_COMPAT_H
+ 
++#ifdef CONFIG_KSU_SUSFS
++#include "../include/susfs.h"
++#endif
++
+ /* ksu_access_ok is needed for SUSFS compatibility */
+ #ifdef CONFIG_KSU_SUSFS
+ static inline bool ksu_access_ok(const void *addr, unsigned long size)
+ {
+ 	return access_ok(addr, size);
+ }
++#endif
++
+ #endif /* KSU_KERNEL_COMPAT_H */

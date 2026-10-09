@@ -1,0 +1,32 @@
+diff --git a/kernel/supercall/dispatch.c b/kernel/supercall/dispatch.c
+index 1234567..abcdefg 100644
+--- a/kernel/supercall/dispatch.c
++++ b/kernel/supercall/dispatch.c
+@@ -1,6 +1,10 @@
+ #include "internal.h"
+ #include "../kernel_compat.h"
+ 
++#ifdef CONFIG_KSU_SUSFS
++#include "../include/susfs.h"
++#endif
++
+ static void *ksu_skip_callback(void *data, size_t len)
+ {
+ 	return (void *)((uintptr_t)data + len);
+@@ -50,6 +54,15 @@ handle_cmd(void *cmd_data, size_t len, struct ksu_cmd_result *result)
+ 	case CMD_GET_ALLOWED:
+ 		return handle_cmd_get_allowed(data, result);
++	case CMD_SUSFS:
++		return handle_cmd_susfs(data, result);
++	default:
++		break;
++	}
++	return 0;
++}
++
++#ifdef CONFIG_KSU_SUSFS
++static int handle_cmd_susfs(struct ksu_cmd_susfs *data, struct ksu_cmd_result *result)
++{
++	return susfs_handle_cmd(data, result);
++}
++#endif
