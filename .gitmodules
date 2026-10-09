@@ -1,0 +1,3 @@
+[submodule "kernel/susfs-patches"]
+	path = kernel/susfs-patches
+	url = https://gitlab.com/simonpunk/susfs4ksu.git
