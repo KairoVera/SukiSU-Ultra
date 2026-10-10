@@ -2,7 +2,7 @@ diff --git a/selinux/rules.c b/selinux/rules.c
 index 1234567..abcdefg 100644
 --- a/selinux/rules.c
 +++ b/selinux/rules.c
-@@ -160,6 +160,10 @@ void apply_kernelsu_rules()
+@@ -162,5 +162,9 @@ void apply_kernelsu_rules()
  
      reset_avc_cache();
 +#ifdef CONFIG_KSU_SUSFS
