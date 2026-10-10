@@ -10,3 +10,4 @@ index 1234567..abcdefg 100644
  out_unlock:
      mutex_unlock(&selinux_state.policy_mutex);
  }
+
