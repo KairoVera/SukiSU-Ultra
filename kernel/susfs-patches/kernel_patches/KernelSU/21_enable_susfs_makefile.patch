@@ -1,16 +1,15 @@
-diff --git a/kernel/Makefile b/kernel/Makefile
-index 1234567..abcdefg 100644
 --- a/kernel/Makefile
 +++ b/kernel/Makefile
-@@ -1,5 +1,15 @@
- obj-$(CONFIG_KSU) += kernelsu.o
- 
+@@ -7,6 +7,47 @@
+ KBUILD_ARGS := M=$(MDIR) MO=$(ODIR)
+ else
+ KBUILD_ARGS := M=$(ODIR) src=$(MDIR)
++endif
 +ifeq ($(CONFIG_KSU_SUSFS), y)
 +ccflags-y += -DKSU_SUSFS
 +ccflags-y += -I$(srctree)/fs
 +ccflags-y += -include $(srctree)/include/linux/susfs.h
 +endif
-+
 +ifneq ($(CONFIG_KSU_SUSFS_SUS_PATH),)
 +ccflags-y += -DKSU_SUSFS_SUS_PATH
 +endif
@@ -46,7 +45,6 @@ index 1234567..abcdefg 100644
 +endif
 +ifneq ($(CONFIG_KSU_SUSFS_OPEN_REDIRECT),)
 +ccflags-y += -DKSU_SUSFS_OPEN_REDIRECT
-+endif
-+
- ccflags-y += -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
- ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-generic/errno.h
+ endif
+ 
+ $(info -- KDIR: $(KDIR))
