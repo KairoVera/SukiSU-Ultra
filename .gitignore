@@ -1,1 +1,4 @@
-kernel/susfs-patches/
+
+# Patch reject and backup files
+*.rej
+*.orig
