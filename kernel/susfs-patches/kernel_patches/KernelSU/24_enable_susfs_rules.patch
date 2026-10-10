@@ -1,8 +1,8 @@
-diff --git a/selinux/rules.c b/selinux/rules.c
-index 1234567..abcdefg 100644
 --- a/selinux/rules.c
 +++ b/selinux/rules.c
-@@ -160,7 +160,11 @@ void apply_kernelsu_rules()
+@@ -161,6 +161,9 @@
+     ksu_destroy_sepolicy(old_pol);
+ 
      reset_avc_cache();
 +#ifdef CONFIG_KSU_SUSFS
 +    susfs_set_batch_sid();
@@ -10,4 +10,13 @@ index 1234567..abcdefg 100644
  out_unlock:
      mutex_unlock(&selinux_state.policy_mutex);
  }
-
+@@ -520,6 +523,9 @@
+     ksu_destroy_sepolicy(old_pol);
+ 
+     reset_avc_cache();
++#ifdef CONFIG_KSU_SUSFS
++    susfs_set_batch_sid();
++#endif
+     ret = success_cmd_count;
+     goto out_unlock;
+ 
