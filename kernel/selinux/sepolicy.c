@@ -3,6 +3,14 @@ extern int susfs_add_sus_avd_allowed_by_type(u32 s_type, u32 t_type, u16 type, u
 extern int susfs_add_sus_type(const char *secctx, u32 type_value);
 #endif // #ifdef CONFIG_KSU_SUSFS
 
+#ifdef CONFIG_KSU_SUSFS
+/* Stub implementations for SUSFS functions not available in older kernels */
+#ifndef CONFIG_SUKISU_SUSFS_HAS_IMPL
+int susfs_add_sus_type(const char *secctx, u32 type_value) { return 0; }
+int susfs_add_sus_avd_allowed_by_type(u32 s_type, u32 t_type, u16 type, u32 orig_avd_allowed) { return 0; }
+#endif
+#endif
+
 #define KSU_SUPPORT_ADD_TYPE
 
 //////////////////////////////////////////////////////
