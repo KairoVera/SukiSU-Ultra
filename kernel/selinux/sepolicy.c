@@ -8,11 +8,13 @@ extern int susfs_add_sus_type(const char *secctx, u32 type_value);
 #ifndef CONFIG_SUKISU_SUSFS_HAS_IMPL
 int susfs_add_sus_type(const char *secctx, u32 type_value) { return 0; }
 int susfs_add_sus_avd_allowed_by_type(u32 s_type, u32 t_type, u16 type, u32 orig_avd_allowed) { return 0; }
-int susfs_switch_to_ksu_domain(void) { return 0; }
-int susfs_restore_creds(void) { return 0; }
-int susfs_parse_priority_app_strings(const char *buf, u32 len) { return 0; }
-int susfs_set_priority_uid_filter(void) { return 0; }
 #endif
+#endif
+
+/* Forward declarations for SUSFS functions added in b0e474642+ */
+#ifdef CONFIG_KSU_SUSFS
+void susfs_set_priority_uid_filter(void __user **user_info);
+void susfs_parse_priority_app_strings(void);
 #endif
 
 #define KSU_SUPPORT_ADD_TYPE
